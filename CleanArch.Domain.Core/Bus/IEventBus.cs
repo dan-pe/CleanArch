@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace CleanArch.Domain.Core.Bus
 {
-    public interface IEventsBus
+    public interface IEventBus
     {
         Task SendCommand<T>(T command) where T : Command;
 
         void Publish<T>(T publishEvent) where T : Event;
 
-        void Subscrube<T, TH>()
+        void Subscribe<T, TH>()
             where T : Event
             where TH : IEventHandler<T>;
     }
