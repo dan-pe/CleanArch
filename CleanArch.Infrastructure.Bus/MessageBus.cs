@@ -19,6 +19,13 @@ namespace CleanArch.Infrastructure.Bus
         private readonly Dictionary<string, List<Type>> handlers;
         private readonly List<Type> eventTypes;
 
+        public MessageBus(IMediator mediator)
+        {
+            this.mediator = mediator;
+            handlers = new Dictionary<string, List<Type>>();
+            eventTypes = new List<Type>();
+        }
+
         public void Publish<T>(T publishEvent) where T : Event
         {
             var factory = new ConnectionFactory { HostName = "localhost" };
