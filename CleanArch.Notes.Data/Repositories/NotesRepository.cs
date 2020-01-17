@@ -7,9 +7,9 @@ namespace CleanArch.Notes.Data.Repositories
 {
     public class NotesRepository : INotesRepository
     {
-        private readonly NotesDbContex ctx;
+        private readonly NotesDbContext ctx;
 
-        public NotesRepository(NotesDbContex ctx)
+        public NotesRepository(NotesDbContext ctx)
         {
             this.ctx = ctx;
         }

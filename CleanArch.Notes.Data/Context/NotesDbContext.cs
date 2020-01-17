@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CleanArch.Notes.Data.Context
 {
-    public class NotesDbContex : DbContext
+    public class NotesDbContext : DbContext
     {
-        public NotesDbContex(DbContextOptions options) : base(options)   
+        public NotesDbContext(DbContextOptions options) : base(options)   
         {
         }
 

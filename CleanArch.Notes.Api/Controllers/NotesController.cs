@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CleanArch.Notes.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Notes.Api.Controllers
 {
@@ -6,10 +7,17 @@ namespace CleanArch.Notes.Api.Controllers
     [Route("api/[controller]")]
     public class NotesController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get()
+        private readonly INotesService notesService;
+
+        public NotesController(INotesService notesService)
         {
-            return Ok();
+            this.notesService = notesService;
+        }
+
+        [HttpGet]
+        public IActionResult GetNotes()
+        {
+            return Ok(notesService.GetNotes());
         }
     }
 }
