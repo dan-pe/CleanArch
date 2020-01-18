@@ -13,6 +13,11 @@ namespace CleanArch.Stash.Data.Context
             this.ctx = ctx;
         }
 
+        public void AddStashNote(StashNote note)
+        {
+            ctx.Add(note);
+            ctx.SaveChanges();
+        }
 
         public IEnumerable<StashNote> GetStashedNotes()
         {

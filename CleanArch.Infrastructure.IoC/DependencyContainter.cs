@@ -4,6 +4,10 @@ using CleanArch.Notes.Application.Interfaces;
 using CleanArch.Notes.Application.Services;
 using CleanArch.Notes.Data.Context;
 using CleanArch.Notes.Data.Repositories;
+using CleanArch.Stash.Application.Interfaces;
+using CleanArch.Stash.Application.Services;
+using CleanArch.Stash.Data.Context;
+using CleanArch.Stash.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArch.Infrastructure.IoC
@@ -17,10 +21,13 @@ namespace CleanArch.Infrastructure.IoC
 
             // Application Layer
             services.AddTransient<INotesService, NotesService>();
+            services.AddTransient<INoteStashService, NoteStashService>();
 
             // Data Layer
             services.AddTransient<INotesRepository, NotesRepository>();
+            services.AddTransient<INoteStashRepository, NoteStashRepository>();
             services.AddTransient<NotesDbContext>();
+            services.AddTransient<NoteStashDbContext>();
         }
     }
 }

@@ -6,5 +6,7 @@ namespace CleanArch.Stash.Domain.Interfaces
     public interface INoteStashRepository
     {
         IEnumerable<StashNote> GetStashedNotes();
+
+        void AddStashNote(StashNote note);
     }
 }

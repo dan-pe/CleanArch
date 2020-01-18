@@ -12,6 +12,8 @@
     <ProjectReference Include="..\CleanArch.Infrastructure.Bus\CleanArch.Infrastructure.Bus.csproj" />
     <ProjectReference Include="..\CleanArch.Notes.Application\CleanArch.Notes.Application.csproj" />
     <ProjectReference Include="..\CleanArch.Notes.Data\CleanArch.Notes.Data.csproj" />
+    <ProjectReference Include="..\CleanArch.Stash.Application\CleanArch.Stash.Application.csproj" />
+    <ProjectReference Include="..\CleanArch.Stash.Data\CleanArch.Stash.Data.csproj" />
   </ItemGroup>
 
 </Project>
