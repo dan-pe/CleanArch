@@ -14,6 +14,11 @@ namespace CleanArch.Notes.Application.Services
             this.notesRepository = notesRepository;
         }
 
+        public void AddNote(Note note)
+        {
+            notesRepository.AddNote(note);
+        }
+
         public IEnumerable<Note> GetNotes()
         {
             return notesRepository.GetNotes();

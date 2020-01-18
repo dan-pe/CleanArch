@@ -14,6 +14,12 @@ namespace CleanArch.Notes.Data.Repositories
             this.ctx = ctx;
         }
 
+        public void AddNote(Note note)
+        {
+            ctx.Add(note);
+            ctx.SaveChanges();
+        }
+
         public IEnumerable<Note> GetNotes()
         {
             return ctx.Notes;

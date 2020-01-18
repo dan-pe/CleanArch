@@ -6,5 +6,7 @@ namespace CleanArch.Notes.Application.Interfaces
     public interface INotesService
     {
         IEnumerable<Note> GetNotes();
+
+        void AddNote(Note note);
     }
 }
