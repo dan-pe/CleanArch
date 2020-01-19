@@ -8,6 +8,7 @@ using CleanArch.Stash.Application.Interfaces;
 using CleanArch.Stash.Application.Services;
 using CleanArch.Stash.Data.Context;
 using CleanArch.Stash.Domain.Interfaces;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArch.Infrastructure.IoC
@@ -17,7 +18,11 @@ namespace CleanArch.Infrastructure.IoC
         public static void RegisterServices(IServiceCollection services)
         {
             // Interface Bus
-            services.AddTransient<IEventBus, MessageBus>();
+            services.AddSingleton<IEventBus, MessageBus>(serviceProvider =>
+            {
+                var scopeFactory = serviceProvider.GetRequiredService<IServiceScopeFactory>();
+                return new MessageBus(serviceProvider.GetService<IMediator>(), scopeFactory);
+            });
 
             // Application Layer
             services.AddTransient<INotesService, NotesService>();

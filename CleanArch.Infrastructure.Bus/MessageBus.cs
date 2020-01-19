@@ -2,6 +2,7 @@
 using CleanArch.Domain.Core.Commands;
 using CleanArch.Domain.Core.Events;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -16,12 +17,14 @@ namespace CleanArch.Infrastructure.Bus
     public class MessageBus : IEventBus
     {
         private readonly IMediator mediator;
+        private readonly IServiceScopeFactory serviceScopeFactory;
         private readonly Dictionary<string, List<Type>> handlers;
         private readonly List<Type> eventTypes;
 
-        public MessageBus(IMediator mediator)
+        public MessageBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
         {
             this.mediator = mediator;
+            this.serviceScopeFactory = serviceScopeFactory;
             handlers = new Dictionary<string, List<Type>>();
             eventTypes = new List<Type>();
         }
@@ -116,15 +119,18 @@ namespace CleanArch.Infrastructure.Bus
         {
             if (handlers.ContainsKey(eventName))
             {
-                var subscriptions = handlers[eventName];
-                foreach (var subscription in subscriptions)
+                using (var scope = serviceScopeFactory.CreateScope())
                 {
-                    var handler = Activator.CreateInstance(subscription);
-                    var eventType = eventTypes.SingleOrDefault(t => t.Name == eventName);
-                    var @event = JsonConvert.DeserializeObject(message, eventType);
-                    var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
+                    var subscriptions = handlers[eventName];
+                    foreach (var subscription in subscriptions)
+                    {
+                        var handler = scope.ServiceProvider.GetService(subscription);
+                        var eventType = eventTypes.SingleOrDefault(t => t.Name == eventName);
+                        var @event = JsonConvert.DeserializeObject(message, eventType);
+                        var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
 
-                    await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
+                        await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { @event });
+                    }
                 }
             }
         }

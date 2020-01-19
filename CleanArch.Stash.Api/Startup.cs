@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CleanArch.Domain.Core.Bus;
 using CleanArch.Infrastructure.IoC;
 using CleanArch.Stash.Data.Context;
+using CleanArch.Stash.Domain.EventHandlers;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -76,6 +78,14 @@ namespace CleanArch.Stash.Api
             {
                 endpoints.MapControllers();
             });
+
+            ConfigureEventBus(app);
+        }
+
+        private void ConfigureEventBus(IApplicationBuilder app)
+        {
+            var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<NoteCreatedEvent, NoteCreatedEventHandler>();
         }
     }
 }
