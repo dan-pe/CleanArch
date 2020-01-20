@@ -7,6 +7,6 @@ namespace CleanArch.Notes.Application.Interfaces
     {
         IEnumerable<Note> GetNotes();
 
-        void AddNote(Note note);
+        void StashNote(Note note);
     }
 }

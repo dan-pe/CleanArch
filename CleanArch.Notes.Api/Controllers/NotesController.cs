@@ -24,7 +24,7 @@ namespace CleanArch.Notes.Api.Controllers
         [HttpPost]
         public IActionResult AddNote([FromBody]Note note)
         {
-            notesService.AddNote(note);
+            notesService.StashNote(note);
             return Ok(note);
         }
     }

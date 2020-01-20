@@ -1,6 +1,7 @@
-﻿using CleanArch.Notes.Application.Interfaces;
+﻿using CleanArch.Domain.Core.Bus;
+using CleanArch.Notes.Application.Interfaces;
+using CleanArch.Notes.Domain.Commands;
 using CleanArch.Notes.Domain.Models;
-using System;
 using System.Collections.Generic;
 
 namespace CleanArch.Notes.Application.Services
@@ -8,15 +9,20 @@ namespace CleanArch.Notes.Application.Services
     public class NotesService : INotesService
     {
         private readonly INotesRepository notesRepository;
+        private readonly IEventBus eventBus;
 
-        public NotesService(INotesRepository notesRepository)
+        public NotesService(INotesRepository notesRepository, IEventBus eventBus)
         {
             this.notesRepository = notesRepository;
+            this.eventBus = eventBus;
         }
 
-        public void AddNote(Note note)
+        public void StashNote(Note note)
         {
-            notesRepository.AddNote(note);
+            var noteCreatedCommand = new CreateNoteCommand(note.Header, note.Content, note.CreationTime);
+
+            eventBus.SendCommand(noteCreatedCommand);
+
         }
 
         public IEnumerable<Note> GetNotes()

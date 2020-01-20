@@ -1,8 +1,5 @@
 ﻿using CleanArch.Domain.Core.Events;
-using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CleanArch.Stash.Domain.EventHandlers
 {

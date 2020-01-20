@@ -21,10 +21,10 @@ namespace CleanArch.Infrastructure.Bus
         private readonly Dictionary<string, List<Type>> handlers;
         private readonly List<Type> eventTypes;
 
-        public MessageBus(IMediator mediator, IServiceScopeFactory serviceScopeFactory)
+        public MessageBus(IMediator mediator, IServiceScopeFactory scopeFactory)
         {
             this.mediator = mediator;
-            this.serviceScopeFactory = serviceScopeFactory;
+            this.serviceScopeFactory = scopeFactory;
             handlers = new Dictionary<string, List<Type>>();
             eventTypes = new List<Type>();
         }
@@ -72,7 +72,7 @@ namespace CleanArch.Infrastructure.Bus
 
             if (handlers[eventName].Any(e => e.GetType() == handlerType))
             {
-                throw new ArgumentException($"Hanlder {handlerType.Name} is already registered for '{eventName}'", nameof(handlerType));
+                throw new ArgumentException($"Handler {handlerType.Name} is already registered for '{eventName}'", nameof(handlerType));
             }
 
             handlers[eventName].Add(typeof(TH));
